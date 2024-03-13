@@ -15,9 +15,9 @@ ENDTIME = "20:10:00"
 class reserve:
     def __init__(self):
         self.login_page = "https://passport2.chaoxing.com/mlogin?loginType=1&newversion=true&fid="
-        self.url = "https://office.chaoxing.com/front/third/apps/seat/code?id={}&seatNum={}"
-        self.submit_url = "https://office.chaoxing.com/data/apps/seat/submit"
-        self.seat_url = "https://office.chaoxing.com/data/apps/seat/getusedtimes"
+        self.url = "https://reserve.chaoxing.com/front/third/apps/seat/code?id={}&seatNum={}"
+        self.submit_url = "https://reserve.chaoxing.com/data/apps/seat/submit"
+        self.seat_url = "https://reserve.chaoxing.com/data/apps/seat/getusedtimes"
         self.login_url = "https://passport2.chaoxing.com/fanyalogin"
         self.token = ""
         self.success_times = 0
@@ -85,7 +85,7 @@ class reserve:
             "fid": -1,
             "uname": username,
             "password": password,
-            "refer": "http%3A%2F%2Foffice.chaoxing.com%2Ffront%2Fthird%2Fapps%2Fseat%2Fcode%3Fid%3D4219%26seatNum%3D380",
+            "refer": "http%3A%2F%2Freserve.chaoxing.com%2Ffront%2Fthird%2Fapps%2Fseat%2Fcode%3Fid%3D4219%26seatNum%3D380",
             "t": True
         }
         jsons = self.requests.post(
@@ -111,7 +111,7 @@ class reserve:
         return suc
     
     def roomid(self, encode):
-        url = f"https://office.chaoxing.com/data/apps/seat/room/list?cpage=1&pageSize=100&firstLevelName=&secondLevelName=&thirdLevelName=&deptIdEnc={encode}"
+        url = f"https://reserve.chaoxing.com/data/apps/seat/room/list?cpage=1&pageSize=100&firstLevelName=&secondLevelName=&thirdLevelName=&deptIdEnc={encode}"
         json_data = self.requests.get(url=url).content.decode('utf-8')
         ori_data = json.loads(json_data)
         for i in ori_data["data"]["seatRoomList"]:
@@ -175,7 +175,7 @@ def debug(users, action):
         s = reserve()
         s.get_login_status()
         s.login(username, password)
-        s.requests.headers.update({'Host': 'office.chaoxing.com'})
+        s.requests.headers.update({'Host': 'reserve.chaoxing.com'})
         suc = s.submit(times, roomid, seatid)
         if suc:
             return
@@ -186,7 +186,7 @@ def get_roomid(**kwargs):
     s = reserve()
     s.get_login_status()
     s.login(username=username, password=password)
-    s.requests.headers.update({'Host': 'office.chaoxing.com'})
+    s.requests.headers.update({'Host': 'reserve.chaoxing.com'})
     encode = input("请输入deptldEnc：")
     s.roomid(encode)
 
